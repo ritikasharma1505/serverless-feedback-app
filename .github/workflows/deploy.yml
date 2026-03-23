@@ -5,7 +5,7 @@ on:
     branches:  
       - main 
     paths:
-       - 'index.html'
+       - 'frontend/index.html'
 
 jobs:
   deploy:
@@ -24,7 +24,7 @@ jobs:
 
     - name: Upload index.html to S3 
       run: | 
-        aws s3 cp index.html s3://${{ secrets.S3_BUCKET }}/index.html
+        aws s3 cp frontend/index.html s3://${{ secrets.S3_BUCKET }}/index.html
 
     - name: Invalidate CloudFront cache
       if: env.CLOUDFRONT_DIST_ID != ''
