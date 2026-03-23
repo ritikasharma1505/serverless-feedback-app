@@ -2,7 +2,10 @@ name: Deploy Frontend to S3 + CloudFront
 
 on:
   push:
-    branches: [ main ]
+    branches:  
+      - main 
+    paths:
+       - 'index.html'
 
 jobs:
   deploy:
@@ -19,9 +22,9 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: Sync frontend to S3
-      run: |
-        aws s3 sync ./frontend s3://${{ secrets.S3_BUCKET }} --delete
+    - name: Upload index.html to S3 
+      run: | 
+        aws s3 cp index.html s3://${{ secrets.S3_BUCKET }}/index.html
 
     - name: Invalidate CloudFront cache
       if: env.CLOUDFRONT_DIST_ID != ''
